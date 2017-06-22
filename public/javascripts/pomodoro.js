@@ -1,59 +1,62 @@
-var pomodoro = {
-    started : false,
-    minutes : 0,
-    seconds : 0,
-    fillerHeight : 0,
-    fillerIncrement : 0,
-    interval : null,
-    minutesDom : null,
-    secondsDom : null,
-    fillerDom : null,
-    init : function(){
+$(document).ready(function () {
+  var pomodoro = {
+    started: false,
+    minutes: 0,
+    seconds: 0,
+    fillerHeight: 0,
+    fillerIncrement: 0,
+    interval: null,
+    minutesDom: null,
+    secondsDom: null,
+    fillerDom: null,
+    init: function () {
       var self = this;
       this.minutesDom = $('#minutes');
       this.secondsDom = $('#seconds');
       this.fillerDom = $('#filler');
-      this.interval = setInterval(function(){
+      this.interval = setInterval(function () {
         self.intervalCallback.apply(self);
       }, 1000);
-      $('#work').click(function(){
+      $('#work').click(function () {
         self.startWork.apply(self);
       });
-      $('#stop').click(function(){
+      $('#stop').click(function () {
         self.stopTimer.apply(self);
       });
     },
-    resetVariables : function(mins, secs, started){
+    resetVariables: function (mins, secs, started) {
       this.minutes = mins;
       this.seconds = secs;
       this.started = started;
-      this.fillerIncrement = 200/(this.minutes*60);
+      this.fillerIncrement = 200 / (this.minutes * 60);
       this.fillerHeight = 0;
     },
-    startWork: function() {
+    startWork: function () {
       this.resetVariables(0, 30, true);
     },
-    stopTimer : function(){
+    stopTimer: function () {
       this.resetVariables(0, 30, false);
       $(".item.list-group-item").removeClass("active");
       this.updateDom();
     },
-    toDoubleDigit : function(num){
-      if(num < 10) {
+    toDoubleDigit: function (num) {
+      if (num < 10) {
         return "0" + parseInt(num, 10);
       }
       return num;
     },
-    updateDom : function(){
+    updateDom: function () {
       this.minutesDom.text(this.toDoubleDigit(this.minutes));
       this.secondsDom.text(this.toDoubleDigit(this.seconds));
       this.fillerHeight = this.fillerHeight + this.fillerIncrement;
       this.fillerDom.css('height', this.fillerHeight + 'px');
     },
-    intervalCallback : function(){
-      if(!this.started) return false;
-      if(this.seconds == 0) {
-        if(this.minutes == 0) {
+    intervalCallback: function () {
+      if (!this.started) {
+        return false;
+      }
+      if (this.seconds == 0) {
+        if (this.minutes == 0) {
           this.timerComplete();
           return;
         }
@@ -64,18 +67,19 @@ var pomodoro = {
       }
       this.updateDom();
     },
-    timerComplete : function(){
+    timerComplete: function () {
       this.started = false;
       this.fillerHeight = 0;
 
-      var taskId = $(".item.active").data("taskid");
-      $.get("/add/" + taskId, function () {
-        $(".item.list-group-item").removeClass("active");
-        $("#saved").show().delay(5000).fadeOut();
-      });
+      if (activeTaskId) {
+        $.get("/add/" + activeTaskId, function () {
+          updatePomodoroTable();
+          $("#saved").show().delay(5000).fadeOut();
+        });
+      }
     }
-};
-$(document).ready(function(){
+  };
+
   pomodoro.init();
 
   var activeTaskId = null;
@@ -84,16 +88,15 @@ $(document).ready(function(){
     $(".item.list-group-item").removeClass("active");
     $(task).closest(".item.list-group-item").addClass("active");
     activeTaskId = $(task).closest(".item.list-group-item").data("taskid");
+
+    updatePomodoroTable();
   }
 
-  $(".select-task").click(function(e) {
-
-    selectTask(this);
-
-    $.getJSON("/show/" + activeTaskId, function(data) {
+  function updatePomodoroTable() {
+    $.getJSON("/show/" + activeTaskId, function (data) {
       var items = [];
-      $.each(data, function(key, val) {
-        var th = "<th scope=\"row\">" + (key+1) + "</th>";
+      $.each(data, function (key, val) {
+        var th = "<th scope=\"row\">" + (key + 1) + "</th>";
         var td = "<td>" + new Date(val.time).toLocaleString() + "</td>";
         items.push("<tr>" + th + td + "</tr>");
       });
@@ -101,14 +104,18 @@ $(document).ready(function(){
       $(".table").html(items.join(""));
       $(".table").show();
     });
+  }
+
+  $(".select-task").click(function () {
+    selectTask(this);
   });
 
-  $(".start-pomodoro").click(function(e) {
+  $(".start-pomodoro").click(function () {
     selectTask(this);
     pomodoro.startWork();
   });
 
-  $(".complete-task").click(function(e) {
+  $(".complete-task").click(function () {
     var $item = $(this).closest(".item.list-group-item");
     var taskId = $item.data("taskid");
     $.get("/complete/" + taskId, function () {
