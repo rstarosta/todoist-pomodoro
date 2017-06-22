@@ -31,7 +31,7 @@ var pomodoro = {
       this.fillerHeight = 0;
     },
     startWork: function() {
-      this.resetVariables(1, 0, true);
+      this.resetVariables(0, 10, true);
     },
     stopTimer : function(){
       this.resetVariables(25, 0, false);
@@ -66,10 +66,19 @@ var pomodoro = {
     timerComplete : function(){
       this.started = false;
       this.fillerHeight = 0;
+
+      $.get("/add/1", function () {
+        $("#saved").show().delay(5000).fadeOut();
+      });
     }
 };
 $(document).ready(function(){
   pomodoro.init();
+
+  $(".start-pomodoro").click(function(e) {
+    $(".list-group-item").removeClass("active");
+    $(this).closest(".list-group-item").addClass("active");
+  });
 });
 
 

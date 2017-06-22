@@ -12,9 +12,6 @@ import scala.concurrent.{ExecutionContext, Future}
 case class Task(id: Long, title: String)
 
 object Task {
-
-
-
   implicit val implicitWrites = new Writes[Task] {
     def writes(task: Task): JsValue = {
       Json.obj(
