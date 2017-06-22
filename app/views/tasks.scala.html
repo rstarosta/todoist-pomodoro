@@ -1,98 +1,63 @@
 @(tasks: Seq[models.Task])
-<!doctype html>
 
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/pomodoro.css")">
+@main {
+  <h1>Tasks</h1>
 
-    <meta charset="utf-8">
-    <title>Todoist pomodoro</title>
-    <style>
-      body {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-      }
-
-      .list-group {
-        max-height: 800px;
-        overflow-y: scroll;
-      }
-
-      a.select-task {
-        color: inherit;
-        text-decoration:none;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <h1>Tasks</h1>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="list-group">
-            @for(task <- tasks) {
-              <div data-taskid="@task.id" class="item list-group-item justify-content-between">
-                <a href="#" class="select-task">@task.title</a>
-                <div>
-                  <a href="#" class="start-pomodoro btn btn-secondary btn-sm" role="button">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="list-group">
+      @for(task <- tasks) {
+        <div data-taskid="@task.id" class="item list-group-item justify-content-between">
+          <a href="#" class="select-task">@task.title</a>
+          <div>
+            <a href="#" class="start-pomodoro btn btn-secondary btn-sm" role="button">
                   Start
-                  </a>
-                  <a href="#" class="complete-task btn btn-success btn-sm" role="button">
+            </a>
+            <a href="#" class="complete-task btn btn-success btn-sm" role="button">
                   Complete
-                  </a>
-                </div>
-                @*<a href='@routes.Application.completeTask(task.id)' class="list-group-item">@task.title</a>*@
-              </div>
-            }
+            </a>
           </div>
         </div>
-
-        <div class="col-md-6">
-          <div id="saved" class="alert alert-success" style="display: none;" role="alert">
-            <strong>Success!</strong> Pomodoro saved.
-          </div>
-          <div id="completed" class="alert alert-success" style="display: none;" role="alert">
-            <strong>Success!</strong> Task completed.
-          </div>
-
-          <div class="card">
-
-            <div class="card-block">
-              <div id="timer">
-                <div id="time">
-                  <span id="minutes">00</span>
-                  <span id="colon">:</span>
-                  <span id="seconds">30</span>
-                </div>
-                <div id="filler">
-                </div>
-              </div>
-            </div>
-
-            <div class="card-block text-md-center">
-              <button id="stop" type="button" class="btn btn-danger">Reset</button>
-            </div>
-
-          </div>
-
-          <div class="card">
-            <table class="table">
-
-            </table>
-          </div>
-        </div>
+      }
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <div class="col-md-6">
+      <div id="saved" class="alert alert-success" style="display: none;" role="alert">
+        <strong>Success!</strong> Pomodoro saved.
+      </div>
+      <div id="completed" class="alert alert-success" style="display: none;" role="alert">
+        <strong>Success!</strong> Task completed.
+      </div>
 
-    <script src="@routes.Assets.at("javascripts/pomodoro.js")" type="text/javascript"></script>
+      <div class="card">
 
-  </body>
-</html>
+        <div class="card-block">
+          <div id="timer">
+            <div id="time">
+              <span id="minutes">00</span>
+              <span id="colon">:</span>
+              <span id="seconds">30</span>
+            </div>
+            <div id="filler">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-block text-md-center">
+          <button id="stop" type="button" class="btn btn-danger">Reset</button>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <table class="table">
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="@routes.Assets.at("javascripts/pomodoro.js")" type="text/javascript"></script>
+}
 

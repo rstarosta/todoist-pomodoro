@@ -36,7 +36,6 @@ $(document).ready(function () {
     },
     stopTimer: function () {
       this.resetVariables(0, 30, false);
-      $(".item.list-group-item").removeClass("active");
       this.updateDom();
     },
     toDoubleDigit: function (num) {
