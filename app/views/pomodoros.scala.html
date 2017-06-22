@@ -1,0 +1,21 @@
+@(pomodoros: Seq[Pomodoro])
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Play REST API</title>
+  </head>
+
+  <body>
+    <h1>Play REST API</h1>
+
+    <ul>
+      @for(pomodoro <- pomodoros) {
+        <li>@pomodoro.id</li>
+        <li>@pomodoro.time</li>
+        <li>@pomodoro.taskId</li>
+      }
+    </ul>
+  </body>
+</html>

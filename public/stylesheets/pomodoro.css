@@ -1,0 +1,32 @@
+#timer {
+  color: #d9534f;
+  font-size: 50px;
+  margin: 10px auto;
+  border: 5px solid #d9534f;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  text-align: center;
+}
+
+#time {
+  margin-top: 70px;
+  z-index: 1;
+  position: relative;
+}
+
+#filler {
+  background: #68dbff;
+  height: 0px;
+  width: 200px;
+  position: absolute;
+  bottom: 0;
+}
+
