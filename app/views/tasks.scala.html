@@ -29,13 +29,13 @@
         <div class="col-md-6">
           <div class="list-group">
             @for(task <- tasks) {
-              <div class="list-group-item justify-content-between">
+              <div data-taskid="@task.id" class="item list-group-item justify-content-between">
                 @task.title
                 <div>
-                  <a href="#" data-taskid="@task.id" class="start-pomodoro btn btn-secondary btn-sm" role="button">
+                  <a href="#" class="start-pomodoro btn btn-secondary btn-sm" role="button">
                   Start
                   </a>
-                  <a href="#" data-taskid="@task.id" class="start-pomodoro btn btn-success btn-sm" role="button">
+                  <a href="#" class="complete-task btn btn-success btn-sm" role="button">
                   Complete
                   </a>
                 </div>
@@ -49,15 +49,18 @@
           <div id="saved" class="alert alert-success" style="display: none;" role="alert">
             <strong>Success!</strong> Pomodoro saved.
           </div>
+          <div id="completed" class="alert alert-success" style="display: none;" role="alert">
+            <strong>Success!</strong> Task completed.
+          </div>
 
           <div class="card">
 
             <div class="card-block">
               <div id="timer">
                 <div id="time">
-                  <span id="minutes">25</span>
+                  <span id="minutes">00</span>
                   <span id="colon">:</span>
-                  <span id="seconds">00</span>
+                  <span id="seconds">30</span>
                 </div>
                 <div id="filler">
                 </div>
@@ -65,8 +68,7 @@
             </div>
 
             <div class="card-block text-md-center">
-              <button id="work" type="button" class="btn btn-primary">Work</button>
-              <button id="stop" type="button" class="btn btn-danger">Stop</button>
+              <button id="stop" type="button" class="btn btn-danger">Reset</button>
             </div>
 
           </div>
@@ -74,7 +76,7 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 

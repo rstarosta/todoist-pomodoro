@@ -31,10 +31,11 @@ var pomodoro = {
       this.fillerHeight = 0;
     },
     startWork: function() {
-      this.resetVariables(0, 10, true);
+      this.resetVariables(0, 30, true);
     },
     stopTimer : function(){
-      this.resetVariables(25, 0, false);
+      this.resetVariables(0, 30, false);
+      $(".item.list-group-item").removeClass("active");
       this.updateDom();
     },
     toDoubleDigit : function(num){
@@ -67,7 +68,9 @@ var pomodoro = {
       this.started = false;
       this.fillerHeight = 0;
 
-      $.get("/add/1", function () {
+      var taskId = $(".item.active").data("taskid");
+      $.get("/add/" + taskId, function () {
+        $(".item.list-group-item").removeClass("active");
         $("#saved").show().delay(5000).fadeOut();
       });
     }
@@ -76,9 +79,20 @@ $(document).ready(function(){
   pomodoro.init();
 
   $(".start-pomodoro").click(function(e) {
-    $(".list-group-item").removeClass("active");
-    $(this).closest(".list-group-item").addClass("active");
+    $(".item.list-group-item").removeClass("active");
+    $(this).closest(".item.list-group-item").addClass("active");
+    pomodoro.startWork();
   });
+
+  $(".complete-task").click(function(e) {
+    var $item = $(this).closest(".item.list-group-item");
+    var taskId = $item.data("taskid");
+    $.get("/complete/" + taskId, function () {
+      $item.remove();
+      $("#completed").show().delay(5000).fadeOut();
+    });
+  });
+
 });
 
 
