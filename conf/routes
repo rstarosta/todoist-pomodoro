@@ -3,15 +3,16 @@
 # ~~~~
 
 # Home page
-GET        /                        controllers.Application.index
+GET         /                        controllers.Application.index
+POST        /                        controllers.Application.submitToken
 
-GET        /tasks                   controllers.Application.tasks
-GET        /show                    controllers.Application.showAllPomodoros
-GET        /show/:taskId            controllers.Application.showPomodorosForTask(taskId: Long)
-GET        /complete/:taskId        controllers.Application.completeTask(taskId: Long)
-GET        /add/:taskId             controllers.Application.addPomodoro(taskId: Long)
+GET         /tasks                   controllers.Application.tasks
+GET         /show                    controllers.Application.showAllPomodoros
+GET         /show/:taskId            controllers.Application.showPomodorosForTask(taskId: Long)
+GET         /complete/:taskId        controllers.Application.completeTask(taskId: Long)
+GET         /add/:taskId             controllers.Application.addPomodoro(taskId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file            controllers.Assets.at(path="/public", file)
+GET         /assets/*file            controllers.Assets.at(path="/public", file)
 
     

@@ -1,7 +1,14 @@
-@(message: String)
+@()
 
 @main {
+  <div class="row justify-content-center">
+  @helper.form(routes.Application.submitToken()) {
+    <h2>Please input your API token</h2>
 
-    @play20.welcome(message)
+    <label for="token" class="sr-only">Todoist API token</label>
+    <input type="text" name="token" class="form-control" placeholder="Todoist API token" required autofocus>
 
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Continue</button>
+  }
+  </div>
 }

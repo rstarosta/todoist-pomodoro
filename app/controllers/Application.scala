@@ -7,16 +7,30 @@ import javax.inject.Inject
 import dao.PomodoroDao
 import models.{Pomodoro, Task}
 import play.api.libs.json._
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Action, AnyContent, Controller, Request}
 import service.TaskService
+import play.api.data._
+import play.api.data.Forms._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class Application @Inject()(taskService: TaskService, pomodoroDao: PomodoroDao)(implicit ec: ExecutionContext) extends Controller {
 
+  val tokenForm = Form(single("token" -> text))
+
   def index = Action {
-    Redirect(routes.Application.tasks()).withSession("token" -> "14ead441b2a3c4faa2258c20ed1adecf605a44f0")
-    //Ok(views.html.index("Your new application is ready."))
+    Ok(views.html.index())
+  }
+
+  def submitToken = Action { implicit request =>
+    tokenForm.bindFromRequest.fold(
+      formWithErrors => {
+        Redirect(routes.Application.index())
+      },
+      token => {
+        Redirect(routes.Application.tasks()).withSession("token" -> token)
+      }
+    )
   }
 
   def showAllPomodoros = Action.async {
@@ -45,7 +59,7 @@ class Application @Inject()(taskService: TaskService, pomodoroDao: PomodoroDao)(
   def completeTask(id: Long) = Action.async { request =>
     request.session.get("token").map { token =>
       taskService.completeItem(id, token).map { response =>
-        if(response.status == 200) {
+        if (response.status == 200) {
           Ok(response.body)
         } else {
           BadRequest(response.body)
