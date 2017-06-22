@@ -18,8 +18,12 @@ class Application @Inject()(handler: TaskHandler, pomodoroDao: PomodoroDao)(impl
     //Ok(views.html.index("Your new application is ready."))
   }
 
-  def showPomodoros = Action.async {
-    pomodoroDao.all().map(pomodoros => Ok(views.html.pomodoros(pomodoros)))
+  def showAllPomodoros = Action.async {
+    pomodoroDao.all().map(pomodoros => Ok(Json.toJson(pomodoros)))
+  }
+
+  def showPomodorosForTask(taskId: Long) = Action.async {
+    pomodoroDao.forTask(taskId).map(pomodoros => Ok(Json.toJson(pomodoros)))
   }
 
   def addPomodoro(taskId: Long) = Action.async {
@@ -34,7 +38,7 @@ class Application @Inject()(handler: TaskHandler, pomodoroDao: PomodoroDao)(impl
           Ok(views.html.tasks(s.get))
         case e: JsError => NotFound(JsError.toJson(e))
       }
-    }.getOrElse(Future.successful(NotFound("Invalid token")))
+    }.getOrElse(Future.successful(Redirect(routes.Application.index())))
   }
 
   def completeTask(id: Long) = Action.async { request =>

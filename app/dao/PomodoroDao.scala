@@ -18,6 +18,8 @@ class PomodoroDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvi
 
   def all(): Future[Seq[Pomodoro]] = db.run(Pomodoros.result)
 
+  def forTask(taskId: Long): Future[Seq[Pomodoro]] = db.run(Pomodoros.filter(_.taskId === taskId).result)
+
   def insert(pomodoro: Pomodoro): Future[Unit] = db.run(Pomodoros += pomodoro).map { _ => () }
 
   private class PomodorosTable(tag: Tag) extends Table[Pomodoro](tag, "POMODORO") {

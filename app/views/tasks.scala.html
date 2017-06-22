@@ -30,7 +30,7 @@
           <div class="list-group">
             @for(task <- tasks) {
               <div data-taskid="@task.id" class="item list-group-item justify-content-between">
-                @task.title
+                <a href="#" class="select-task">@task.title</a>
                 <div>
                   <a href="#" class="start-pomodoro btn btn-secondary btn-sm" role="button">
                   Start
@@ -71,6 +71,12 @@
               <button id="stop" type="button" class="btn btn-danger">Reset</button>
             </div>
 
+          </div>
+
+          <div class="card">
+            <table class="table">
+
+            </table>
           </div>
         </div>
       </div>

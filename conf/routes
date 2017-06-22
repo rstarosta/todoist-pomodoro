@@ -6,7 +6,8 @@
 GET     /                           controllers.Application.index
 
 GET     /tasks                      controllers.Application.tasks
-GET     /show                       controllers.Application.showPomodoros
+GET     /show                       controllers.Application.showAllPomodoros
+GET     /show/:taskId                controllers.Application.showPomodorosForTask(taskId: Long)
 GET     /complete/:id               controllers.Application.completeTask(id: Long)
 GET    /add/:taskId                controllers.Application.addPomodoro(taskId: Long)
 

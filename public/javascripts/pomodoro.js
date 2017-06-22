@@ -78,9 +78,33 @@ var pomodoro = {
 $(document).ready(function(){
   pomodoro.init();
 
-  $(".start-pomodoro").click(function(e) {
+  var activeTaskId = null;
+
+  function selectTask(task) {
     $(".item.list-group-item").removeClass("active");
-    $(this).closest(".item.list-group-item").addClass("active");
+    $(task).closest(".item.list-group-item").addClass("active");
+    activeTaskId = $(task).closest(".item.list-group-item").data("taskid");
+  }
+
+  $(".select-task").click(function(e) {
+
+    selectTask(this);
+
+    $.getJSON("/show/" + activeTaskId, function(data) {
+      var items = [];
+      $.each(data, function(key, val) {
+        var th = "<th scope=\"row\">" + (key+1) + "</th>";
+        var td = "<td>" + new Date(val.time).toLocaleString() + "</td>";
+        items.push("<tr>" + th + td + "</tr>");
+      });
+
+      $(".table").html(items.join(""));
+      $(".table").show();
+    });
+  });
+
+  $(".start-pomodoro").click(function(e) {
+    selectTask(this);
     pomodoro.startWork();
   });
 
