@@ -1,15 +1,14 @@
 package dao
 
 
-import java.sql.{Date, Timestamp}
-
-import scala.concurrent.{ExecutionContext, Future}
+import java.sql.Timestamp
 import javax.inject.Inject
 
 import models.Pomodoro
-import play.api.db.slick.DatabaseConfigProvider
-import play.api.db.slick.HasDatabaseConfigProvider
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
 
 class PomodoroDao @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
